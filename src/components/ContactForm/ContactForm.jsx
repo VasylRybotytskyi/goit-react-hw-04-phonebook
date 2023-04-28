@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import { Formik } from 'formik';
 import PropTypes from 'prop-types';
 import * as yup from 'yup';
@@ -14,41 +14,38 @@ const schema = yup.object().shape({
   number: yup.number().required(),
 });
 
-export class ContactForm extends Component {
-  static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-  };
+export const ContactForm = ({ onSubmit }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  state = {
-    name: '',
-    number: '',
-  };
-
-  handleSubmit = (values, { resetForm }) => {
-    this.props.onSubmit(values);
-    this.setState({ name: '', number: '' });
+  const handleSubmit = (values, { resetForm }) => {
+    onSubmit(values);
+    setName('');
+    setNumber('');
     resetForm();
   };
 
-  render() {
-    return (
-      <>
-        <Formik
-          initialValues={this.state}
-          validationSchema={schema}
-          onSubmit={this.handleSubmit}
-        >
-          <FormContainer>
-            <label htmlFor="name">Name</label>
-            <FormInput type="text" name="name" id="name" />
-            <FormErrorMessage name="name" component="span" />
-            <label htmlFor="number">Number</label>
-            <FormInput type="tel" name="number" id="number" />
-            <FormErrorMessage name="number" component="span" />
-            <SubmitButton type="submit">Add contact</SubmitButton>
-          </FormContainer>
-        </Formik>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <Formik
+        initialValues={{ name: '', number: '' }}
+        validationSchema={schema}
+        onSubmit={handleSubmit}
+      >
+        <FormContainer>
+          <label htmlFor="name">Name</label>
+          <FormInput type="text" name="name" id="name" />
+          <FormErrorMessage name="name" component="span" />
+          <label htmlFor="number">Number</label>
+          <FormInput type="tel" name="number" id="number" />
+          <FormErrorMessage name="number" component="span" />
+          <SubmitButton type="submit">Add contact</SubmitButton>
+        </FormContainer>
+      </Formik>
+    </>
+  );
+};
+
+ContactForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
