@@ -34,10 +34,22 @@ export function ContactForm({ onSubmit }) {
       >
         <FormContainer>
           <label htmlFor="name">Name</label>
-          <FormInput type="text" name="name" id="name" />
+          <FormInput
+            type="text"
+            name="name"
+            id="name"
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
           <FormErrorMessage name="name" component="span" />
           <label htmlFor="number">Number</label>
-          <FormInput type="tel" name="number" id="number" />
+          <FormInput
+            type="tel"
+            name="number"
+            id="number"
+            value={number}
+            onChange={e => setNumber(e.target.value)}
+          />
           <FormErrorMessage name="number" component="span" />
           <SubmitButton type="submit">Add contact</SubmitButton>
         </FormContainer>
