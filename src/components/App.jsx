@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { nanoid } from 'nanoid';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { GlobalStyle } from './GlobalStyle';
 
 export const App = () => {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
 
-  //Функція фільтрації контактів
+  // Функція фільтрації контактів
   const filterContacts = e => {
     setFilter(e.target.value);
   };
@@ -22,7 +22,7 @@ export const App = () => {
     );
   };
 
-  //Функція яка приймає data із ContactForm і записує в state.contacts.
+  // Функція яка приймає data із ContactForm і записує в state.contacts.
   const formSubmitHandler = data => {
     const { name } = data;
     const existingContact = contacts.find(contact => contact.name === name);
@@ -36,19 +36,16 @@ export const App = () => {
     setContacts([newContact, ...contacts]);
   };
 
-  componentDidMount() {
-    const contacts = localStorage.getItem('contacts'); // get contacts with localStorage
-    const parseContacts = JSON.parse(contacts) ?? []; // parse contacts or set as empty array if null
-    this.setState({ contacts: parseContacts }); // set contacts
-  }
+  useEffect(() => {
+    const contacts = localStorage.getItem('contacts'); // отримати контакти з localStorage
+    const parseContacts = JSON.parse(contacts) ?? []; // розпарсити контакти або встановити порожній масив, якщо значення дорівнює null
+    setContacts(parseContacts); // встановити контакти
+  }, []);
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
-  console.log('Render componentDidMount');
   const normalizedContact = filter.toLocaleLowerCase();
   const visibleContacts = contacts.filter(contact =>
     contact.name.toLocaleLowerCase().includes(normalizedContact)

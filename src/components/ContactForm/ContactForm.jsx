@@ -14,7 +14,7 @@ const schema = yup.object().shape({
   number: yup.number().required(),
 });
 
-export const ContactForm = ({ onSubmit }) => {
+export function ContactForm({ onSubmit }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -44,7 +44,7 @@ export const ContactForm = ({ onSubmit }) => {
       </Formik>
     </>
   );
-};
+}
 
 ContactForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
