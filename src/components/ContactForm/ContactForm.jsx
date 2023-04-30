@@ -15,8 +15,9 @@ const schema = yup.object().shape({
 });
 
 export function ContactForm({ onSubmit }) {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  // delete name and number from useState
+  const [setName] = useState('');
+  const [setNumber] = useState('');
 
   const handleSubmit = (values, { resetForm }) => {
     onSubmit(values);
