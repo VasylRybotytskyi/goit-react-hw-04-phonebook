@@ -38,8 +38,11 @@ export const App = () => {
 
   useEffect(() => {
     const contacts = localStorage.getItem('contacts'); // отримати контакти з localStorage
-    const parseContacts = JSON.parse(contacts) ?? []; // розпарсити контакти або встановити порожній масив, якщо значення дорівнює null
-    setContacts(parseContacts); // встановити контакти
+    const parseContacts = JSON.parse(contacts); // розпарсити контакти
+    if (parseContacts) {
+      // якщо контакти є, встановити їх в state.contacts
+      setContacts(parseContacts);
+    }
   }, []);
 
   useEffect(() => {
