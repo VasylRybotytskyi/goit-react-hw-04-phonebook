@@ -7,7 +7,9 @@ import PropTypes from 'prop-types';
 import { GlobalStyle } from './GlobalStyle';
 
 export const App = () => {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(
+    JSON.parse(window.localStorage.getItem('contacts')) ?? []
+  );
   const [filter, setFilter] = useState('');
 
   // Функція фільтрації контактів
@@ -37,17 +39,20 @@ export const App = () => {
   };
 
   useEffect(() => {
-    const contacts = localStorage.getItem('contacts'); // отримати контакти з localStorage
-    const parseContacts = JSON.parse(contacts); // розпарсити контакти
-    if (parseContacts) {
-      // якщо контакти є, встановити їх в state.contacts
-      setContacts(parseContacts);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
+    window.localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
+  // useEffect(() => {
+  //   const contacts = localStorage.getItem('contacts'); // отримати контакти з localStorage
+  //   const parseContacts = JSON.parse(contacts); // розпарсити контакти
+  //   if (parseContacts) {
+  //     // якщо контакти є, встановити їх в state.contacts
+  //     setContacts(parseContacts);
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   localStorage.setItem('contacts', JSON.stringify(contacts));
+  // }, [contacts]);
 
   const normalizedContact = filter.toLocaleLowerCase();
   const visibleContacts = contacts.filter(contact =>

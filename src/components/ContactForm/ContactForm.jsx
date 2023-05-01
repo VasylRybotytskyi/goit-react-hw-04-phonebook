@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Formik } from 'formik';
 import PropTypes from 'prop-types';
 import * as yup from 'yup';
@@ -8,7 +7,6 @@ import {
   FormErrorMessage,
   SubmitButton,
 } from './ContactForm.styled';
-
 const schema = yup.object().shape({
   name: yup.string().required(),
   number: yup.number().required(),
@@ -16,13 +14,8 @@ const schema = yup.object().shape({
 
 export function ContactForm({ onSubmit }) {
   // delete name and number from useState
-  const [setName] = useState('');
-  const [setNumber] = useState('');
-
   const handleSubmit = (values, { resetForm }) => {
     onSubmit(values);
-    setName('');
-    setNumber('');
     resetForm();
   };
 
